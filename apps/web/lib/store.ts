@@ -229,7 +229,173 @@ export const RECIPES: Recipe[] = [
   { id: "r10", name: "Yarrow First Aid Wash",    icon: "🩹", plants: ["yarrow"],                                instructions: "Steep fresh yarrow flowers in boiling water for 10 min. Cool completely. Use to wash minor cuts.",   nutritionTags: ["antimicrobial", "anti-inflammatory"],     time: "15 min",    difficulty: "easy"     },
 ];
 
-const LS_KEY = "eden-pods-v2";
+// ── Hardiness zones ──────────────────────────────────────────────────────────
+
+export type ClimateKey = "cold" | "cool" | "temperate" | "subtropical" | "tropical";
+
+export interface ClimateZone {
+  key:         ClimateKey;
+  label:       string;
+  emoji:       string;
+  description: string;
+  usda:        string;
+  examples:    string;
+  color:       string;
+  podIds:      string[];
+  kitSizes:    { pods: number; composition: { podId: string; count: number }[] }[];
+}
+
+export const CLIMATE_ZONES: ClimateZone[] = [
+  {
+    key:         "cold",
+    label:       "Cold",
+    emoji:       "🧊",
+    description: "Hard winters, short summers. Ground freezes.",
+    usda:        "Zones 3–5",
+    examples:    "Canada, Scandinavia, Siberia, mountain regions",
+    color:       "#93C5FD",
+    podIds:      ["pod-meadow-mix", "pod-grain-guild"],
+    kitSizes: [
+      {
+        pods: 12,
+        composition: [
+          { podId: "pod-meadow-mix",  count: 8 },
+          { podId: "pod-grain-guild", count: 4 },
+        ],
+      },
+      {
+        pods: 24,
+        composition: [
+          { podId: "pod-meadow-mix",  count: 16 },
+          { podId: "pod-grain-guild", count: 8  },
+        ],
+      },
+    ],
+  },
+  {
+    key:         "cool",
+    label:       "Cool Temperate",
+    emoji:       "🌥️",
+    description: "Mild summers, cold winters. Occasional frost.",
+    usda:        "Zones 6–7",
+    examples:    "UK, Northern Europe, Pacific Northwest, NE USA",
+    color:       "#6EE7B7",
+    podIds:      ["pod-meadow-mix", "pod-forest-edge", "pod-herb-spiral", "pod-grain-guild", "pod-vine-canopy"],
+    kitSizes: [
+      {
+        pods: 12,
+        composition: [
+          { podId: "pod-meadow-mix",   count: 4 },
+          { podId: "pod-forest-edge",  count: 3 },
+          { podId: "pod-herb-spiral",  count: 3 },
+          { podId: "pod-vine-canopy",  count: 2 },
+        ],
+      },
+      {
+        pods: 24,
+        composition: [
+          { podId: "pod-meadow-mix",   count: 8 },
+          { podId: "pod-forest-edge",  count: 6 },
+          { podId: "pod-herb-spiral",  count: 5 },
+          { podId: "pod-grain-guild",  count: 3 },
+          { podId: "pod-vine-canopy",  count: 2 },
+        ],
+      },
+    ],
+  },
+  {
+    key:         "temperate",
+    label:       "Warm Temperate",
+    emoji:       "🌤️",
+    description: "Warm summers, mild winters. Rare frost.",
+    usda:        "Zones 8–9",
+    examples:    "Mediterranean, SE USA, Southern Europe, NZ",
+    color:       "#FDE68A",
+    podIds:      ["pod-meadow-mix", "pod-forest-edge", "pod-herb-spiral", "pod-grain-guild", "pod-vine-canopy"],
+    kitSizes: [
+      {
+        pods: 12,
+        composition: [
+          { podId: "pod-forest-edge",  count: 4 },
+          { podId: "pod-herb-spiral",  count: 3 },
+          { podId: "pod-vine-canopy",  count: 3 },
+          { podId: "pod-grain-guild",  count: 2 },
+        ],
+      },
+      {
+        pods: 24,
+        composition: [
+          { podId: "pod-forest-edge",  count: 7 },
+          { podId: "pod-herb-spiral",  count: 6 },
+          { podId: "pod-vine-canopy",  count: 5 },
+          { podId: "pod-grain-guild",  count: 4 },
+          { podId: "pod-meadow-mix",   count: 2 },
+        ],
+      },
+    ],
+  },
+  {
+    key:         "subtropical",
+    label:       "Subtropical",
+    emoji:       "🌞",
+    description: "Hot summers, warm winters. No hard frost.",
+    usda:        "Zones 9–11",
+    examples:    "Florida, Texas, Southern China, North Africa, N. Australia",
+    color:       "#FCA5A5",
+    podIds:      ["pod-tropical-canopy", "pod-herb-spiral", "pod-vine-canopy", "pod-grain-guild"],
+    kitSizes: [
+      {
+        pods: 12,
+        composition: [
+          { podId: "pod-tropical-canopy", count: 5 },
+          { podId: "pod-herb-spiral",     count: 3 },
+          { podId: "pod-vine-canopy",     count: 2 },
+          { podId: "pod-grain-guild",     count: 2 },
+        ],
+      },
+      {
+        pods: 24,
+        composition: [
+          { podId: "pod-tropical-canopy", count: 10 },
+          { podId: "pod-herb-spiral",     count: 6  },
+          { podId: "pod-vine-canopy",     count: 5  },
+          { podId: "pod-grain-guild",     count: 3  },
+        ],
+      },
+    ],
+  },
+  {
+    key:         "tropical",
+    label:       "Tropical",
+    emoji:       "🌴",
+    description: "Hot and humid year-round. No winter.",
+    usda:        "Zones 12–13",
+    examples:    "Amazon, SE Asia, Central Africa, Caribbean",
+    color:       "#86EFAC",
+    podIds:      ["pod-tropical-canopy", "pod-vine-canopy", "pod-grain-guild"],
+    kitSizes: [
+      {
+        pods: 12,
+        composition: [
+          { podId: "pod-tropical-canopy", count: 8 },
+          { podId: "pod-vine-canopy",     count: 2 },
+          { podId: "pod-grain-guild",     count: 2 },
+        ],
+      },
+      {
+        pods: 24,
+        composition: [
+          { podId: "pod-tropical-canopy", count: 16 },
+          { podId: "pod-vine-canopy",     count: 5  },
+          { podId: "pod-grain-guild",     count: 3  },
+        ],
+      },
+    ],
+  },
+];
+
+const LS_KEY        = "eden-pods-v2";
+const LS_ZONE_KEY   = "eden-climate-zone";
 const EMPTY: LocalState = { observations: [], notifications: [] };
 
 export function loadLocal(): LocalState {
@@ -245,6 +411,19 @@ export function saveLocal(s: LocalState): void {
   try { localStorage.setItem(LS_KEY, JSON.stringify(s)); } catch {}
 }
 
+export function loadSavedZone(): ClimateKey | null {
+  if (typeof window === "undefined") return null;
+  try {
+    const raw = localStorage.getItem(LS_ZONE_KEY);
+    return raw as ClimateKey | null;
+  } catch { return null; }
+}
+
+export function saveZone(key: ClimateKey): void {
+  if (typeof window === "undefined") return;
+  try { localStorage.setItem(LS_ZONE_KEY, key); } catch {}
+}
+
 export function addObservation(
   data: Omit<Observation, "id" | "observedAt">
 ): Observation {
@@ -255,8 +434,8 @@ export function addObservation(
 }
 
 export function seedNotifications(
-  throwId:      string,
-  throwDate:    string,
+  throwId:       string,
+  throwDate:     string,
   growthModelId: string
 ): void {
   const s = loadLocal();
